@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TabsModel } from 'src/Models/Tabs.model';
 
 @Component({
@@ -10,6 +10,7 @@ export class TabsComponent implements OnInit {
   tabData:TabsModel = new TabsModel();
   isActive:boolean = false;
   showRemoveBtn:boolean = false;
+  @Output() removeTabEmitter:EventEmitter<boolean> = new EventEmitter();
   constructor() { }
 
   ngOnInit(): void {
@@ -22,6 +23,10 @@ export class TabsComponent implements OnInit {
 
   hideContentOnHover(){
     this.showRemoveBtn = false;
+  }
+
+  deleteTab(){
+    this.removeTabEmitter.emit(true);
   }
 
 

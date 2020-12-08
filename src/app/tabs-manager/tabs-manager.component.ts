@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { stat } from 'fs';
 import { Constants } from 'src/Constants';
 import { TabsModel } from 'src/Models/Tabs.model';
 import { TabsManagementService } from '../tabs-management.service';
@@ -40,17 +41,29 @@ export class TabsManagerComponent implements OnInit {
 
   addTab(){
     this.tabsManagement.incrementTabsCounter();
-    const container:ComponentRef<TabsComponent> = this.sliderContainer.createComponent(this.tabsComponentFactory);
-    this.tabsListRef.push(container);
-    container.instance.tabData.tabName = `Tab ${this.tabsManagement.tabsCounter}`;
+    const tabComp:ComponentRef<TabsComponent> = this.sliderContainer.createComponent(this.tabsComponentFactory);
+    this.tabsListRef.push(tabComp);
+    tabComp.instance.tabData.tabName = `Tab ${this.tabsManagement.tabsCounter}`;
     if(this.activeTab){
       this.activeTab.instance.isActive = false;
     }
-    container.instance.isActive = true;
-    let element:HTMLElement = <HTMLElement>container.location.nativeElement;
+    tabComp.instance.isActive = true;
+    let element:HTMLElement = <HTMLElement>tabComp.location.nativeElement;
     element.style.flex = "1";
-    this.activeTab = container;
+    this.activeTab = tabComp;
+
+    tabComp.instance.removeTabEmitter.subscribe(() => {
+      const componentIndex = this.tabsListRef.indexOf(tabComp);
+      if(componentIndex !== -1){
+        this.sliderContainer.remove(componentIndex);
+        this.tabsListRef.splice(componentIndex, 1);
+        this.handleRightChevron();
+        // this.tabsManagement.decrementTabsCounter();
+      }
+    })
+
     this.handleRightChevron();
+
   }
 
   initializeTabs(){
@@ -66,8 +79,11 @@ export class TabsManagerComponent implements OnInit {
 
   handleRightChevron(){
     let status = this. utilService.checkIfElementOverFlow(this.tabsContainer.nativeElement);
+    console.log(status, "status")
     if(status){
       this.showRightChevron = true;
+    }else{
+      this.showRightChevron = false;
     }
   }
 
