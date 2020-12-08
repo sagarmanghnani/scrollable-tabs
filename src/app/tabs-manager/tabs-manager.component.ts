@@ -51,16 +51,8 @@ export class TabsManagerComponent implements OnInit {
     let element:HTMLElement = <HTMLElement>tabComp.location.nativeElement;
     element.style.flex = "1";
     this.activeTab = tabComp;
-
-    tabComp.instance.removeTabEmitter.subscribe(() => {
-      const componentIndex = this.tabsListRef.indexOf(tabComp);
-      if(componentIndex !== -1){
-        this.sliderContainer.remove(componentIndex);
-        this.tabsListRef.splice(componentIndex, 1);
-        this.handleRightChevron();
-        // this.tabsManagement.decrementTabsCounter();
-      }
-    })
+    this.removeTabHandler(tabComp);
+    
 
     this.handleRightChevron();
 
@@ -85,6 +77,22 @@ export class TabsManagerComponent implements OnInit {
     }else{
       this.showRightChevron = false;
     }
+  }
+
+  removeTabHandler(tabComp:ComponentRef<TabsComponent>){
+    if(this.tabsListRef.length === 1){
+      return;
+    }
+    tabComp.instance.removeTabEmitter.subscribe(() => {
+      const componentIndex = this.tabsListRef.indexOf(tabComp);
+      if(componentIndex !== -1){
+        this.sliderContainer.remove(componentIndex);
+        this.tabsListRef.splice(componentIndex, 1);
+        const lastTab = this.tabsListRef[this.tabsListRef.length - 1];
+        lastTab.instance.isActive = true;
+        this.handleRightChevron();
+      }
+    })
   }
 
 
