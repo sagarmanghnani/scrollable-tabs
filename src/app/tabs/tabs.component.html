@@ -1,1 +1,4 @@
-<p>tabs works!</p>
+<div class="tab" (mouseenter) = "showContentOnHover()" (mouseleave) = "hideContentOnHover()">
+    <p *ngIf = "tabData?.tabName"> {{tabData?.tabName}} </p>
+    <button class="delete-btn" *ngIf = "showRemoveBtn"> <i class="fas fa-times"></i> </button>
+</div>

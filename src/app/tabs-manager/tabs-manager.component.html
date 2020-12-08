@@ -1,7 +1,10 @@
 <div class="tab-container">
-    <template #sliderContainer>
-    
-    </template>
+    <div class="template-container-parent">
+        <div class="template-container" #tabsContainer>
+            <template #sliderContainer class="tab-template">
+            </template>
+        </div>
+    </div>
+    <button *ngIf = "showRightChevron"> <i class="fas fa-chevron-right"></i> </button>
+    <button (click) = "addTab()"> <i class="fas fa-plus"></i></button>
 </div>
-
-<button (click) = "addTab()"> Add Tab</button>

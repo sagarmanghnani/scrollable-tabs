@@ -9,10 +9,20 @@ import { TabsModel } from 'src/Models/Tabs.model';
 export class TabsComponent implements OnInit {
   tabData:TabsModel = new TabsModel();
   isActive:boolean = false;
+  showRemoveBtn:boolean = false;
   constructor() { }
 
   ngOnInit(): void {
     
   }
+
+  showContentOnHover(){
+    this.showRemoveBtn = true;
+  }
+
+  hideContentOnHover(){
+    this.showRemoveBtn = false;
+  }
+
 
 }
