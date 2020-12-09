@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { stat } from 'fs';
 import { Constants } from 'src/Constants';
 import { TabsModel } from 'src/Models/Tabs.model';
 import { TabsManagementService } from '../tabs-management.service';
@@ -66,7 +65,12 @@ export class TabsManagerComponent implements OnInit {
   }
 
   scrollToRight(){
-
+    let tabContainerElement:HTMLElement = this.tabsContainer.nativeElement;
+    const tabWidth = this.tabsListRef[0].instance.getComponentWidth();
+    tabContainerElement.scrollTo({
+      left:tabWidth + tabContainerElement.scrollLeft,
+      behavior:"smooth"
+    })
   }
 
   handleRightChevron(){
@@ -85,11 +89,17 @@ export class TabsManagerComponent implements OnInit {
     }
     tabComp.instance.removeTabEmitter.subscribe(() => {
       const componentIndex = this.tabsListRef.indexOf(tabComp);
+      let isRemovedTabActive = false;
+      if(tabComp.instance.isActive){
+        isRemovedTabActive = true;
+      }
       if(componentIndex !== -1){
         this.sliderContainer.remove(componentIndex);
         this.tabsListRef.splice(componentIndex, 1);
-        const lastTab = this.tabsListRef[this.tabsListRef.length - 1];
-        lastTab.instance.isActive = true;
+        if(isRemovedTabActive){
+          const lastTab = this.tabsListRef[this.tabsListRef.length - 1];
+          lastTab.instance.isActive = true;
+        }
         this.handleRightChevron();
       }
     })

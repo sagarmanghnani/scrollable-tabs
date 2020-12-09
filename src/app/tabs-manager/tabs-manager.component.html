@@ -5,6 +5,6 @@
             </template>
         </div>
     </div>
-    <button *ngIf = "showRightChevron"> <i class="fas fa-chevron-right"></i> </button>
+    <button *ngIf = "showRightChevron" (click) = "scrollToRight()"> <i class="fas fa-chevron-right"></i> </button>
     <button (click) = "addTab()"> <i class="fas fa-plus"></i></button>
 </div>
