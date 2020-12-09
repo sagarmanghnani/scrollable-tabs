@@ -18,8 +18,12 @@ export class TabsManagerComponent implements OnInit {
   tabsListRef:ComponentRef<TabsComponent>[] = [];
   activeTab:ComponentRef<TabsComponent> = null;
   tabsComponentFactory:ComponentFactory<TabsComponent>;
-  showtChevron:boolean = false;
-  // showLeftChevron:boolean = false;
+  showRighttChevron:boolean = false;
+  disableLeftChevron:boolean = false;
+  disableRightChevron:boolean = false;
+  showLeftChevron:boolean = false;
+  isLastTabActive:boolean = false;
+  isStartTabActive:boolean = false;
   constructor(
     public tabsManagement:TabsManagementService,
     public resolver:ComponentFactoryResolver,
@@ -51,9 +55,10 @@ export class TabsManagerComponent implements OnInit {
     element.style.flex = "1";
     this.activeTab = tabComp;
     this.removeTabHandler(tabComp);
-    
-
+    this.activateTab(tabComp);
     this.handleRightChevron();
+    // this.manageChevronWorking();
+
 
   }
 
@@ -85,9 +90,11 @@ export class TabsManagerComponent implements OnInit {
   handleRightChevron(){
     let status = this. utilService.checkIfElementOverFlow(this.tabsContainer.nativeElement);
     if(status){
-      this.showtChevron = true;
+      this.showLeftChevron = true;
+      this.showRighttChevron = true;
     }else{
-      this.showtChevron = false;
+      this.showLeftChevron = false;
+      this.showRighttChevron = false;
     }
   }
 
@@ -109,9 +116,69 @@ export class TabsManagerComponent implements OnInit {
           lastTab.instance.isActive = true;
         }
         this.handleRightChevron();
+        // this.manageChevronWorking();
+
       }
     })
   }
+
+  activateTab(tabComp:ComponentRef<TabsComponent>){
+    tabComp.instance.activateTabEmitter.subscribe(() => {
+      tabComp.instance.isActive = true;
+      if(this.activeTab){
+        this.activeTab.instance.isActive = false;
+      }
+      this.activeTab = tabComp;
+      const tabListRefLength = this.tabsListRef.length;
+      if(this.tabsListRef[0] === this.activeTab){
+        this.isStartTabActive = true;
+        this.isLastTabActive = false;
+      }else if(this.tabsListRef[tabListRefLength - 1] === this.activeTab){
+        this.isLastTabActive = true;
+        this.isStartTabActive = false;
+      }else{
+        this.isLastTabActive = false;
+        this.isStartTabActive = false;
+      }
+      // this.manageChevronWorking();
+    })
+  }
+
+  manageChevronWorking(){
+    if(this.activeTab === this.tabsListRef[0]){
+      this.disableLeftChevron = true;
+    }else if(this.activeTab === this.tabsListRef[0]){
+      this.disableRightChevron = true;
+    }else{
+      this.disableRightChevron = false;
+      this.disableLeftChevron = false;
+    }
+  }
+
+
+
+
+
+  
+
+  isComponentInView(tabComp:ComponentRef<TabsComponent>){
+      tabComp.instance.isComponentInVisible.subscribe(res => {
+        if(res){
+          if(tabComp === this.tabsListRef[0]){
+            this.showLeftChevron = false;
+          }
+
+          if(tabComp === this.tabsListRef[this.tabsListRef.length - 1]){
+            this.showRighttChevron = false;
+            this.showLeftChevron = true;
+          }
+        }
+      })
+  }
+
+  
+
+  
 
 
 

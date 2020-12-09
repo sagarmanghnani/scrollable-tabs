@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { TabsModel } from 'src/Models/Tabs.model';
+import { UtilsService } from '../utils.service';
 
 @Component({
   selector: 'app-tabs',
@@ -12,11 +13,19 @@ export class TabsComponent implements OnInit {
   isActive:boolean = false;
   showRemoveBtn:boolean = false;
   @Output() removeTabEmitter:EventEmitter<boolean> = new EventEmitter();
-  
-  constructor() { }
+  @Output() activateTabEmitter:EventEmitter<boolean> = new EventEmitter();
+  @Output() isComponentInVisible:EventEmitter<boolean> = new EventEmitter();
+  constructor(
+    public utilService:UtilsService
+  ) { }
 
   ngOnInit(): void {
     
+  }
+
+  ngAfterViewInit(){
+    const status = this.isTabVisibleOnScreen();
+    this.isComponentInVisible.emit(status);
   }
 
   showContentOnHover(){
@@ -34,6 +43,14 @@ export class TabsComponent implements OnInit {
   getComponentWidth(){
     const tabElem:HTMLElement =  this.tab.nativeElement;
     return tabElem.offsetWidth;
+  }
+
+  activateTab(){
+    this.activateTabEmitter.emit();
+  }
+
+  isTabVisibleOnScreen(){
+    return this.utilService.isElementVisibleOnScreen(this.tab.nativeElement);
   }
 
 }
