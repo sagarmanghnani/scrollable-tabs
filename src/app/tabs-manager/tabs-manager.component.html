@@ -1,10 +1,11 @@
 <div class="tab-container">
+    <button *ngIf = "showtChevron" (click) = "scrollToLeft()"> <i class="fas fa-chevron-left"></i> </button>
     <div class="template-container-parent">
         <div class="template-container" #tabsContainer>
             <template #sliderContainer class="tab-template">
             </template>
         </div>
     </div>
-    <button *ngIf = "showRightChevron" (click) = "scrollToRight()"> <i class="fas fa-chevron-right"></i> </button>
+    <button *ngIf = "showtChevron" (click) = "scrollToRight()"> <i class="fas fa-chevron-right"></i> </button>
     <button (click) = "addTab()"> <i class="fas fa-plus"></i></button>
 </div>

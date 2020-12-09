@@ -18,8 +18,8 @@ export class TabsManagerComponent implements OnInit {
   tabsListRef:ComponentRef<TabsComponent>[] = [];
   activeTab:ComponentRef<TabsComponent> = null;
   tabsComponentFactory:ComponentFactory<TabsComponent>;
-  showRightChevron:boolean = false;
-  showLeftChevron:boolean = false;
+  showtChevron:boolean = false;
+  // showLeftChevron:boolean = false;
   constructor(
     public tabsManagement:TabsManagementService,
     public resolver:ComponentFactoryResolver,
@@ -73,13 +73,21 @@ export class TabsManagerComponent implements OnInit {
     })
   }
 
+  scrollToLeft(){
+    let tabContainerElement:HTMLElement = this.tabsContainer.nativeElement;
+    const tabWidth = this.tabsListRef[0].instance.getComponentWidth();
+    tabContainerElement.scrollTo({
+      left:tabContainerElement.scrollLeft - tabWidth,
+      behavior:"smooth"
+    })
+  }
+
   handleRightChevron(){
     let status = this. utilService.checkIfElementOverFlow(this.tabsContainer.nativeElement);
-    console.log(status, "status")
     if(status){
-      this.showRightChevron = true;
+      this.showtChevron = true;
     }else{
-      this.showRightChevron = false;
+      this.showtChevron = false;
     }
   }
 
