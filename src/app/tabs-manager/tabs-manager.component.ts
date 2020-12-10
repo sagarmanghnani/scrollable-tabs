@@ -40,22 +40,7 @@ export class TabsManagerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.alertData = {
-      header:'Remove Tab',
-      subheader:'Are you sure you want to remove tab',
-      buttons: [
-        {
-          text:'Cancel',
-          handler: () => {}
-        },
-        {
-          text:'Remove',
-          handler: () => {
-            console.log(this, "this");
-          }
-        }
-      ]
-    }
+    
   }
 
   ngAfterViewInit(): void{
@@ -123,23 +108,28 @@ export class TabsManagerComponent implements OnInit {
       return;
     }
     tabComp.instance.removeTabEmitter.subscribe(() => {
-      
-      const componentIndex = this.tabsListRef.indexOf(tabComp);
-      let isRemovedTabActive = false;
-      if(tabComp.instance.isActive){
-        isRemovedTabActive = true;
-      }
-      if(componentIndex !== -1){
-        this.sliderContainer.remove(componentIndex);
-        this.tabsListRef.splice(componentIndex, 1);
-        if(isRemovedTabActive){
-          const lastTab = this.tabsListRef[this.tabsListRef.length - 1];
-          lastTab.instance.isActive = true;
+      this.createAlertObj();
+      this.alertService.open('alert-1');
+      this.alertService.onDismiss.subscribe(res => {
+        if(res){
+          const componentIndex = this.tabsListRef.indexOf(tabComp);
+          let isRemovedTabActive = false;
+          if(tabComp.instance.isActive){
+            isRemovedTabActive = true;
+          }
+          if(componentIndex !== -1){
+            this.sliderContainer.remove(componentIndex);
+            this.tabsListRef.splice(componentIndex, 1);
+            if(isRemovedTabActive){
+              const lastTab = this.tabsListRef[this.tabsListRef.length - 1];
+              lastTab.instance.isActive = true;
+            }
+            this.handleRightChevron();
+            // this.manageChevronWorking();
+    
+          }
         }
-        this.handleRightChevron();
-        // this.manageChevronWorking();
-
-      }
+      })
     })
   }
 
@@ -175,11 +165,6 @@ export class TabsManagerComponent implements OnInit {
       this.disableLeftChevron = false;
     }
   }
-
-
-
-
-
   
 
   isComponentInView(tabComp:ComponentRef<TabsComponent>){
@@ -199,6 +184,27 @@ export class TabsManagerComponent implements OnInit {
 
   openAlert(){
     this.alertService.open('alert-1');
+  }
+
+  createAlertObj(){
+    this.alertData = {
+      header:'Remove Tab',
+      subheader:'Are you sure you want to remove tab',
+      buttons: [
+        {
+          text:'Cancel',
+          handler: () => {
+            return false;
+          }
+        },
+        {
+          text:'Remove',
+          handler: () => {
+            return true;
+          }
+        }
+      ]
+    }
   }
 
   

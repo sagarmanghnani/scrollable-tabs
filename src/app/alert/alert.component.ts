@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { AlertButton, AlertInterface } from 'src/Models/interface/AlertInterface.interface';
 import { AlertServiceService } from '../alert-service.service';
 
@@ -13,7 +13,7 @@ export class AlertComponent implements OnInit {
   htmlElem:HTMLElement;
 
   ngOnChanges(changes: SimpleChanges){
-    if(changes['alertId'].currentValue){
+    if(changes['alertId'] && changes['alertId'].currentValue){
       this.alertId = changes['alertId'].currentValue;
     }
 
@@ -47,11 +47,13 @@ export class AlertComponent implements OnInit {
   closeAlert(){
     this.htmlElem.style.display = 'none';
     document.body.classList.remove('alert-open');
+
   }
 
   executeFunc(button:AlertButton){
-      button.handler();
+      const dismissedData = button.handler();
       this.alertService.close(this.htmlElem.id);
+      this.alertService.onDismiss.emit(dismissedData);
   }
 
 }

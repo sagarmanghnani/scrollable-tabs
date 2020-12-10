@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { AlertInterface } from 'src/Models/interface/AlertInterface.interface';
 import { AlertComponent } from './alert/alert.component';
 
@@ -8,6 +8,7 @@ import { AlertComponent } from './alert/alert.component';
 export class AlertServiceService {
 
   alertList:AlertComponent[] = [];
+  onDismiss:EventEmitter<any> = new EventEmitter();
   constructor() { }
 
 
@@ -34,5 +35,6 @@ export class AlertServiceService {
       foundAlert.closeAlert();
     }
   }
+
   
 }
