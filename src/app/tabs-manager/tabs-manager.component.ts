@@ -1,3 +1,4 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { Constants } from 'src/Constants';
 import { AlertInterface } from 'src/Models/interface/AlertInterface.interface';
@@ -216,9 +217,7 @@ export class TabsManagerComponent implements OnInit {
     }
   }
 
-  drop(event){
-    console.log(event);
-  }
+  
 
   createMaxTabAlert(){
     this.alertData = {
@@ -233,6 +232,12 @@ export class TabsManagerComponent implements OnInit {
         }
       ]
     }
+  }
+
+  drop(event:CdkDragDrop<TabsComponent[]>) {
+    console.log(event, "Event", this.tabsListRef[event.previousIndex].hostView, "Element")
+    this.sliderContainer.move(this.tabsListRef[event.previousIndex].hostView, event.currentIndex);
+    moveItemInArray(this.tabsListRef, event.previousIndex, event.currentIndex);
   }
 
   
