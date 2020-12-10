@@ -1,7 +1,7 @@
 <div class="tab-container">
     <button *ngIf = "showLeftChevron && !isStartTabActive" (click) = "scrollToLeft()" [disabled] = "disableLeftChevron"> <i class="fas fa-chevron-left"></i> </button>
     <div class="template-container-parent">
-        <div class="template-container" #tabsContainer>
+        <div class="template-container" #tabsContainer cdkDropList (cdkDropListDropped) = "drop($event)">
             <template #sliderContainer class="tab-template">
             </template>
         </div>

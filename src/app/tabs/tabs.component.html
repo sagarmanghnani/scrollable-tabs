@@ -1,4 +1,4 @@
 <div class="tab" (mouseenter) = "showContentOnHover()" (mouseleave) = "hideContentOnHover()" [ngClass] = "{'active-tab':isActive}" #tab (click) = "activateTab()">
     <p *ngIf = "tabData?.tabName"> {{tabData?.tabName}} </p>
-    <button class="delete-btn" *ngIf = "showRemoveBtn" (click) = "deleteTab()"> <i class="fas fa-times"></i> </button>
+    <button class="delete-btn" (click) = "deleteTab()" *ngIf = "showRemoveBtn"> <i class="fas fa-times"></i> </button>
 </div>

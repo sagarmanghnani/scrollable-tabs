@@ -6,7 +6,9 @@ import { AppComponent } from './app.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { TabsManagerComponent } from './tabs-manager/tabs-manager.component';
 import { AlertComponent } from './alert/alert.component';
-
+import { NgDragDropModule } from 'ng-drag-drop';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {DragDropModule} from '@angular/cdk/drag-drop'
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,7 +18,9 @@ import { AlertComponent } from './alert/alert.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    DragDropModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

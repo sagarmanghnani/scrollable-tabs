@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostBinding, OnInit, Output, ViewChild } from '@angular/core';
 import { TabsModel } from 'src/Models/Tabs.model';
 import { UtilsService } from '../utils.service';
 
@@ -18,7 +18,8 @@ export class TabsComponent implements OnInit {
   constructor(
     public utilService:UtilsService
   ) { }
-
+  
+  @HostBinding('attr.cdkDrop') 
   ngOnInit(): void {
     
   }
@@ -37,6 +38,7 @@ export class TabsComponent implements OnInit {
   }
 
   deleteTab(){
+    event.stopPropagation();
     this.removeTabEmitter.emit(true);
   }
 

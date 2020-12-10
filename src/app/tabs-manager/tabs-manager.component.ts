@@ -104,10 +104,11 @@ export class TabsManagerComponent implements OnInit {
   }
 
   removeTabHandler(tabComp:ComponentRef<TabsComponent>){
-    if(this.tabsListRef.length === 1){
-      return;
-    }
+    
     tabComp.instance.removeTabEmitter.subscribe(() => {
+      if(this.tabsListRef.length === 1){
+        return;
+      }
       this.createAlertObj();
       this.alertService.open('alert-1');
       this.alertService.onDismiss.subscribe(res => {
@@ -205,6 +206,10 @@ export class TabsManagerComponent implements OnInit {
         }
       ]
     }
+  }
+
+  drop(event){
+    console.log(event);
   }
 
   
