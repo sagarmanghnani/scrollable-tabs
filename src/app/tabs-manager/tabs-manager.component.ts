@@ -147,17 +147,7 @@ export class TabsManagerComponent implements OnInit {
         this.activeTab.instance.isActive = false;
       }
       this.activeTab = tabComp;
-      const tabListRefLength = this.tabsListRef.length;
-      if(this.tabsListRef[0] === this.activeTab){
-        this.isStartTabActive = true;
-        this.isLastTabActive = false;
-      }else if(this.tabsListRef[tabListRefLength - 1] === this.activeTab){
-        this.isLastTabActive = true;
-        this.isStartTabActive = false;
-      }else{
-        this.isLastTabActive = false;
-        this.isStartTabActive = false;
-      }
+      this.checkIfLastTabOrFirstTab();
       // this.manageChevronWorking();
     })
   }
@@ -238,6 +228,21 @@ export class TabsManagerComponent implements OnInit {
     console.log(event, "Event", this.tabsListRef[event.previousIndex].hostView, "Element")
     this.sliderContainer.move(this.tabsListRef[event.previousIndex].hostView, event.currentIndex);
     moveItemInArray(this.tabsListRef, event.previousIndex, event.currentIndex);
+    this.checkIfLastTabOrFirstTab();
+  }
+
+  checkIfLastTabOrFirstTab(){
+    const tabListRefLength = this.tabsListRef.length;
+      if(this.tabsListRef[0] === this.activeTab){
+        this.isStartTabActive = true;
+        this.isLastTabActive = false;
+      }else if(this.tabsListRef[tabListRefLength - 1] === this.activeTab){
+        this.isLastTabActive = true;
+        this.isStartTabActive = false;
+      }else{
+        this.isLastTabActive = false;
+        this.isStartTabActive = false;
+      }
   }
 
   
