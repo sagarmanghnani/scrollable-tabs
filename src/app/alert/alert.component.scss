@@ -1,0 +1,36 @@
+.backdrop {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    opacity: 0.5;
+    background: black;
+}
+
+.alert-container{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .alert-body{
+        padding: 16px;
+        background: white;
+        z-index: 5;
+        position: relative;
+    }
+
+    .button-container{
+        display: flex;
+        justify-content: flex-end;
+        button{
+            margin-right: 10px;
+        }
+    }
+}
+
+.alert-open {
+    overflow: hidden;
+}

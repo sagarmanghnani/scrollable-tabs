@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { TabsManagerComponent } from './tabs-manager/tabs-manager.component';
+import { AlertComponent } from './alert/alert.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TabsComponent,
-    TabsManagerComponent
+    TabsManagerComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

@@ -9,3 +9,7 @@
     <button *ngIf = "showRighttChevron && !isLastTabActive" (click) = "scrollToRight()"> <i class="fas fa-chevron-right"></i> </button>
     <button (click) = "addTab()"> <i class="fas fa-plus"></i></button>
 </div>
+
+
+<app-alert id = "alert-1" [alertData] = "alertData">
+</app-alert>

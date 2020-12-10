@@ -1,6 +1,8 @@
 import { ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { Constants } from 'src/Constants';
+import { AlertInterface } from 'src/Models/interface/AlertInterface.interface';
 import { TabsModel } from 'src/Models/Tabs.model';
+import { AlertServiceService } from '../alert-service.service';
 import { TabsManagementService } from '../tabs-management.service';
 import { TabsComponent } from '../tabs/tabs.component';
 import { UtilsService } from '../utils.service';
@@ -24,11 +26,13 @@ export class TabsManagerComponent implements OnInit {
   showLeftChevron:boolean = false;
   isLastTabActive:boolean = false;
   isStartTabActive:boolean = false;
+  alertData:AlertInterface;
   constructor(
     public tabsManagement:TabsManagementService,
     public resolver:ComponentFactoryResolver,
     public cd:ChangeDetectorRef,
-    public utilService:UtilsService
+    public utilService:UtilsService,
+    public alertService:AlertServiceService
   ) { 
 
     this.tabsComponentFactory = this.resolver.resolveComponentFactory(TabsComponent)
@@ -36,6 +40,22 @@ export class TabsManagerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.alertData = {
+      header:'Remove Tab',
+      subheader:'Are you sure you want to remove tab',
+      buttons: [
+        {
+          text:'Cancel',
+          handler: () => {}
+        },
+        {
+          text:'Remove',
+          handler: () => {
+            console.log(this, "this");
+          }
+        }
+      ]
+    }
   }
 
   ngAfterViewInit(): void{
@@ -103,6 +123,7 @@ export class TabsManagerComponent implements OnInit {
       return;
     }
     tabComp.instance.removeTabEmitter.subscribe(() => {
+      
       const componentIndex = this.tabsListRef.indexOf(tabComp);
       let isRemovedTabActive = false;
       if(tabComp.instance.isActive){
@@ -175,6 +196,12 @@ export class TabsManagerComponent implements OnInit {
         }
       })
   }
+
+  openAlert(){
+    this.alertService.open('alert-1');
+  }
+
+  
 
   
 
