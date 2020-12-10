@@ -1,4 +1,5 @@
-import { Component, ElementRef, EventEmitter, HostBinding, OnInit, Output, ViewChild } from '@angular/core';
+import { CdkDrag } from '@angular/cdk/drag-drop';
+import { Component, ElementRef, EventEmitter, Host, HostBinding, OnInit, Output, ViewChild } from '@angular/core';
 import { TabsModel } from 'src/Models/Tabs.model';
 import { UtilsService } from '../utils.service';
 
@@ -16,10 +17,11 @@ export class TabsComponent implements OnInit {
   @Output() activateTabEmitter:EventEmitter<boolean> = new EventEmitter();
   @Output() isComponentInVisible:EventEmitter<boolean> = new EventEmitter();
   constructor(
-    public utilService:UtilsService
-  ) { }
+    public utilService:UtilsService,
+  ) {
+
+   }
   
-  @HostBinding('attr.cdkDrop') 
   ngOnInit(): void {
     
   }

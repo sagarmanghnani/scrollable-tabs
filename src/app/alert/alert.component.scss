@@ -7,6 +7,17 @@
     background: black;
 }
 
+@mixin common-button-style {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 5px;
+    border: none;
+    background: skyblue;
+    color: white;
+}
+
 .alert-container{
     position: absolute;
     width: 100vw;
@@ -20,6 +31,9 @@
         background: white;
         z-index: 5;
         position: relative;
+        .sub-header{
+            color: gray;
+        }
     }
 
     .button-container{
@@ -34,3 +48,8 @@
 .alert-open {
     overflow: hidden;
 }
+
+button{
+    @include common-button-style()
+}
+

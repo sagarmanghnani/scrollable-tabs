@@ -7,5 +7,6 @@ export interface AlertInterface {
 export interface AlertButton {
     text:string;
     handler?:Function;
-    color?:string
+    color?:string;
+    background?:string;
 }

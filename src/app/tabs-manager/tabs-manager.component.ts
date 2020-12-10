@@ -48,6 +48,11 @@ export class TabsManagerComponent implements OnInit {
   }
 
   addTab(){
+    if(this.tabsListRef.length >= 10){
+      this.createMaxTabAlert();
+      this.alertService.open('alert-1');
+      return;
+    }
     this.tabsManagement.incrementTabsCounter();
     const tabComp:ComponentRef<TabsComponent> = this.sliderContainer.createComponent(this.tabsComponentFactory);
     this.tabsListRef.push(tabComp);
@@ -196,13 +201,16 @@ export class TabsManagerComponent implements OnInit {
           text:'Cancel',
           handler: () => {
             return false;
-          }
+          },
+          background: 'transparent',
+          color:'skyblue'
         },
         {
           text:'Remove',
           handler: () => {
             return true;
-          }
+          },
+          background:'red',
         }
       ]
     }
@@ -210,6 +218,21 @@ export class TabsManagerComponent implements OnInit {
 
   drop(event){
     console.log(event);
+  }
+
+  createMaxTabAlert(){
+    this.alertData = {
+      header: 'Maximum limit exceeded',
+      subheader: 'Maximum limit to create tabs is exceeded',
+      buttons: [
+        {
+          text:'Ok',
+          handler: () => {
+
+          }
+        }
+      ]
+    }
   }
 
   

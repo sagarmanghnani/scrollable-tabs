@@ -1,10 +1,10 @@
 <div class = "alert-container" *ngIf = "alertData">
     <div class="alert-body">
        <h3> {{alertData.header}} </h3>
-       <p> {{alertData.subheader}} </p>
+       <p class = "sub-header"> {{alertData.subheader}} </p>
 
        <div *ngIf = "alertData.buttons" class="button-container">
-            <button *ngFor = "let buttonDetail of alertData.buttons" (click) = "executeFunc(buttonDetail)" > {{buttonDetail.text}} </button>
+            <button *ngFor = "let buttonDetail of alertData.buttons" [style.color] = "buttonDetail.color ? buttonDetail.color : null" [style.background-color] = "buttonDetail.background ? buttonDetail.background : null" (click) = "executeFunc(buttonDetail)" > {{buttonDetail.text}} </button>
        </div>
     </div>
 </div>
